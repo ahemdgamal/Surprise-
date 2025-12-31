@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الي  ياسمين</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+
+*{ box-sizing:border-box; margin:0; padding:0; font-family:'Cairo',sans-serif; }
+body{ background:#1a1a1a; overflow:hidden; }
+
+/* صفحة القفل الانتظار */
+#lock-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #000;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+}
+
+#lock-screen h1 { color: #ff4d6d; margin-bottom: 20px; font-size: 2rem; }
+
+.timer-container {
+    display: flex;
+    gap: 15px;
+    font-weight: bold;
+}
+
+.timer-box {
+    background: rgba(255, 77, 109, 0.1);
+    border: 1px solid #ff4d6d;
+    padding: 15px;
+    border-radius: 10px;
+    min-width: 80px;
+}
+
+.timer-box span { display: block; font-size: 2.5rem; }
+.timer-box label { font-size: 0.9rem; color: #ffccd5; }
+
+/* رسائل الانتظار الجديدة */
+#waiting-msg {
+    margin-top: 30px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffccd5;
+    text-shadow: 0 0 15px #ff4d6d;
+    min-height: 40px;
+}
+
+/* تعديل العداد النهائي ليكون جذاباً ومتغير الألوان */
+#final-seconds {
+    margin-top: 20px;
+    font-size: 10rem; /* تكبير الحجم */
+    color: #ff4d6d;
+    font-weight: 900;
+    display: none;
+    text-shadow: 0 0 30px rgba(0,0,0,0.5);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* باقي التنسيقات الأصلية */
+.red-heart { color: #ff0000; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+
+#page1{
+    height:100vh;
+    background: linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
+    url("https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=2070&auto=format&fit=crop");
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:#fff;
+    position: relative;
+    overflow: hidden;
+}
+
+#header-content { transition: 0.5s; z-index: 10; }
+#countdown{
+    display:none;
+    font-size: 12rem;
+    font-weight: 900;
+    color: #ff4d6d;
+    text-shadow: 0 0 80px rgba(255,77,109,0.8), 0 0 120px rgba(255,77,109,0.6);
+    z-index:20;
+}
+
+.nav-btn{
+    padding:18px 50px;
+    border:none;
+    border-radius:50px;
+    font-size:1.4rem;
+    font-weight:bold;
+    background: linear-gradient(45deg, #ff4d6d, #c9184a);
+    color:#fff;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 10px 30px rgba(255,77,109,0.4);
+    display: block;
+    margin: 30px auto;
+}
+
+#page2, #page3, #page4, #page5 {
+    display:none;
+    min-height:100vh;
+    background: linear-gradient(135deg, #38040e 0%, #1a0206 100%);
+    padding: 40px 20px;
+}
+
+#page2 { flex-direction:column; align-items:center; }
+
+.yasmin-img{
+    width: 95%; max-width: 550px;
+    border-radius:30px; border: 10px solid rgba(255,255,255,0.05);
+    box-shadow:0 30px 70px rgba(0,0,0,0.6);
+    animation:floatImg 4s ease-in-out infinite;
+    display: block; margin: 0 auto;
+}
+
+.text-box{
+    margin: 35px auto; background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(15px); padding:35px; border-radius:25px;
+    max-width:750px; font-size:1.5rem; line-height:2;
+    color:#ffccd5; border: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+}
+
+.vertical-gallery { display: flex; flex-direction: column; align-items: center; gap: 50px; max-width: 800px; margin: 40px auto; }
+
+.outfit-card-v {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border-radius: 25px;
+    border: 6px solid #ff85a1; 
+    padding: 15px;
+    box-shadow: 0 0 25px rgba(255, 133, 161, 0.3);
+    position: relative;
+    transition: 0.3s;
+}
+
+.outfit-card-v::before { content: "🌸"; position: absolute; top: -15px; left: -15px; font-size: 2rem; }
+.outfit-card-v::after { content: "🌸"; position: absolute; bottom: -15px; right: -15px; font-size: 2rem; }
+.outfit-card-v img { width: 100%; border-radius: 15px; display: block; }
+
+.crown-title { font-size: 1.4rem; color: #ff85a1; margin-top: 15px; text-align: center; font-weight: bold; }
+.crown-title::before { content: "👑"; display: block; font-size: 2rem; margin-bottom: 5px; }
+
+.food-card { margin: 0 auto 60px; background: rgba(255, 255, 255, 0.04); border-radius: 30px; overflow: hidden; max-width: 900px; border: 1px solid rgba(255,255,255,0.08); }
+.food-img { width: 100%; max-height: 550px; object-fit: cover; }
+.food-desc h3 { color: #ff4d6d; font-size: 1.8rem; padding: 20px; text-align: center; }
+.food-desc p { color: #ffccd5; padding: 0 20px 30px; font-size: 1.2rem; text-align: center; }
+
+.bouquet-box {
+    max-width: 700px;
+    margin: 50px auto;
+    background: rgba(255, 133, 161, 0.15);
+    padding: 40px;
+    border-radius: 50% 50% 20% 20%;
+    border: 8px double #ff4d6d;
+    position: relative;
+    box-shadow: 0 0 40px rgba(255, 77, 109, 0.3);
+    text-align: center;
+    color: #fff;
+}
+
+.bouquet-box::before { content: "💐🌸🌹"; position: absolute; top: -40px; left: 50%; transform: translateX(-50%); font-size: 3rem; }
+.bouquet-box::after { content: "💖🌷🌸"; position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 2.5rem; }
+
+.floral-text { font-size: 1.4rem; line-height: 1.8; color: #fff; text-shadow: 1px 1px 5px rgba(0,0,0,0.5); }
+
+.signature-container {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.signature {
+    display: inline-block;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #ff4d6d;
+    text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff4d6d;
+    animation: glow 1.5s ease-in-out infinite alternate;
+    position: relative;
+}
+
+.signature::after {
+    content: "❤️";
+    position: absolute;
+    top: -20px;
+    right: -25px;
+    animation: floatHeart 2s infinite;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff4d6d; transform: scale(1); }
+    to { text-shadow: 0 0 20px #ffccd5, 0 0 30px #ff4d6d; transform: scale(1.1); }
+}
+
+@keyframes floatHeart {
+    0% { transform: translateY(0) opacity(1); }
+    100% { transform: translateY(-40px); opacity: 0; }
+}
+
+@keyframes floatImg{ 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-20px) rotate(1deg)} }
+@keyframes pop{ 0% { transform: scale(0); opacity:0; } 50% { transform: scale(1.5); opacity:1; } 100% { transform: scale(1); opacity:1; } }
+</style>
+</head>
+
+<body>
+
+<div id="lock-screen">
+    <h1 id="lock-title">سيتم فتح المفاجأة يا ياسمين خلال:</h1>
+    <div class="timer-container" id="main-timer">
+        <div class="timer-box"><span id="days">00</span><label>يوم</label></div>
+        <div class="timer-box"><span id="hours">00</span><label>ساعة</label></div>
+        <div class="timer-box"><span id="minutes">00</span><label>دقيقة</label></div>
+        <div class="timer-box"><span id="seconds">00</span><label>ثانية</label></div>
+    </div>
+    <div id="waiting-msg">استعدي للمفاجئة✨</div>
+    <div id="final-seconds">60</div>
+</div>
+
+<audio id="birthdayMusic" loop>
+    <source src="y.mp3" type="audio/mpeg">
+</audio>
+
+<div id="page1">
+    <div id="header-content">
+        <h1>Happy Birthday<br>Yasmine <span class="red-heart">❤️</span></h1>
+        <button class="nav-btn" onclick="startCountdown()">افتحي الهدية 🎁</button>
+    </div>
+    <div id="countdown">5</div>
+</div>
+
+<div id="page2">
+    <img src="y7.png" class="yasmin-img" alt="Yasmine">
+    <div class="text-box" id="typeText"></div>
+    <button class="nav-btn" onclick="goToPage3()"> ادخلي ✨</button>
+</div>
+
+<div id="page3">
+    <h2 style="color:#ff85a1; text-align:center; font-size: 2.5rem; margin-bottom: 10px;">👑 اميرتي 👑</h2>
+    <div class="vertical-gallery">
+        <div class="outfit-card-v"><img src="y1.png"><div class="crown-title">قمر مفيش منه اتنين ✨</div></div>
+        <div class="outfit-card-v"><img src="y2.png"><div class="crown-title">اما هنا مزة طبعا 😂<span class="red-heart">❤️</span></div></div>
+        <div class="outfit-card-v"><img src="y3.png"><div class="crown-title">وهنا كمان ✨🔥</div></div>
+        <div class="outfit-card-v"><img src="y4.png"><div class="crown-title"> وهنا برضو 😭<span class="red-heart">❤️</span></div></div>
+        <div class="outfit-card-v"><img src="y5.png"><div class="crown-title">لا جمدان بصراحة ✨</div></div>
+        <div class="outfit-card-v"><img src="y6.png"><div class="crown-title"> مزة مزة يعني 😍<span class="red-heart">❤️</span></div></div>
+        <div class="outfit-card-v"><img src="y.png"><div class="crown-title"> حاجة شيقة وانيقة 😉<span class="red-heart">❤️</span></div></div>
+        <div class="outfit-card-v"><img src="y7.png"><div class="crown-title"> هنا اما قولتلك النضارة تجنن فيكي 😉<span class="red-heart">❤️</span></div></div>
+    </div>
+    <button class="nav-btn" onclick="goToPage4()">لمساتك اللي تجنن 👩‍🍳</button>
+</div>
+
+<div id="page4">
+    <h2 style="color:#ff4d6d; text-align:center; font-size: 3rem; margin-bottom: 40px;">شيف ياسمين 👩‍🍳</h2>
+    <div class="gallery-container">
+        <div class="food-card"><img src="j.png" class="food-img"><div class="food-desc"><h3>إبداع ياسمين</h3><p>تسلم إيدك يا فنانة <span class="red-heart">❤️</span></p></div></div>
+        <div class="food-card"><img src="k.png" class="food-img"><div class="food-desc"><h3>سحر اللمسة</h3><p> كل أكلة ليها حكاية من ايدك الحلوة ♥✨</p></div></div>
+        <div class="food-card"><img src="h.png" class="food-img"><div class="food-desc"><h3>قمة اللذاذة</h3><p>نِفسك هو سر الطعم 🔥</p></div></div>
+    </div>
+    <button class="nav-btn" onclick="goToPage5()">أخر حاجة 💖</button>
+</div>
+
+<div id="page5">
+    <div class="bouquet-box">
+        <div class="floral-text">
+            كل سنة وإنتِ طيبة يا أجمل ياسمين في الدنيا 🎉<br><br>
+            اليوم ده مش أي يوم، ده يوم ميلادك، يوم بحتفل بيه وبوجودك الجميل في حياتنا. بتمني ليكي سنة مليانة توفيق، سلامة، حب، مودة، وفرح كل يوم فيها أكتر من اللي قبله. 💖<br><br>
+            المفاجأة محضراها مخصوص عشانك، وإن شاء الله اللي جاي… كل لحظة هتكون فرحة ليكي، وضحكتك هتكون عنوان الأيام كلها بإذن الله ✨
+        </div>
+    </div>
+    
+    <div class="signature-container">
+        <p style="color:#ffccd5; font-size: 1.1rem; margin-bottom: 10px;">أنا عارف إنها هدية مش قد كدة بس أتمنى تكون عجبتك</p>
+        <div class="signature">صمم بكل حب: أحمد جمال</div>
+    </div>
+
+    <button class="nav-btn" onclick="location.reload()">رجوع للبداية ❤️</button>
+</div>
+
+<script>
+const targetDate = new Date("January 1, 2026 00:00:00").getTime();
+
+const countdownInterval = setInterval(function() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const totalHours = (days * 24) + hours; 
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerText = days.toString().padStart(2, '0');
+    document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+    document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+    document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+
+    const msgBox = document.getElementById("waiting-msg");
+    const finalSecBox = document.getElementById("final-seconds");
+    const mainTimer = document.getElementById("main-timer");
+    const lockTitle = document.getElementById("lock-title");
+
+    // الرسائل الأصلية لم يتم تغييرها
+    if (totalHours <= 10 && totalHours > 2) {
+        msgBox.innerText = "خلاص هانت 😍";
+    } else if (totalHours <= 2 && distance > 60000) {
+        msgBox.innerText = "أتمنى تعجبك 😉❤️";
+    }
+
+    // التعديل المطلوب: العداد التنازلي لآخر دقيقة
+    if (distance <= 60000 && distance > 0) {
+        // إخفاء كل شيء وبقاء العداد فقط
+        msgBox.style.display = "none";
+        mainTimer.style.display = "none";
+        lockTitle.style.display = "none";
+        
+        finalSecBox.style.display = "block";
+        finalSecBox.innerText = seconds;
+
+        // تغيير الألوان تدريجياً
+        if (seconds > 30) {
+            finalSecBox.style.color = "#ff4d6d"; // أحمر
+            finalSecBox.style.textShadow = "0 0 30px #ff4d6d";
+        } else if (seconds <= 30 && seconds > 10) {
+            finalSecBox.style.color = "#ffd700"; // أصفر (Gold)
+            finalSecBox.style.textShadow = "0 0 30px #ffd700";
+        } else {
+            finalSecBox.style.color = "#00ff88"; // أخضر
+            finalSecBox.style.textShadow = "0 0 30px #00ff88";
+        }
+    }
+
+    if (distance < 0) {
+        clearInterval(countdownInterval);
+        document.getElementById("lock-screen").style.display = "none";
+        document.body.style.overflow = "hidden";
+    }
+}, 1000);
+
+const text = `كل سنة وأنتِ طيبة يا أجمل ياسمين في الدنيا ❤️
+الضحكة اللي بتنور أي مكان،
+والقلب اللي مفيش منه اتنين.
+في يوم 1/1 حبيت أقولك إنك أجمل بداية لسنتي الجديدة،
+وجمالك مش بس في شكلك، جمالك في روحك وشخصيتك.`;
+let i=0;
+
+function typeWriter(){
+    if(i < text.length){
+        document.getElementById("typeText").innerHTML += text.charAt(i);
+        i++; setTimeout(typeWriter,45);
+    }
+}
+
+function startCountdown(){
+    const header = document.getElementById('header-content');
+    const countDisplay = document.getElementById('countdown');
+    const music = document.getElementById('birthdayMusic');
+    music.play().catch(e=>console.log("Audio play failed"));
+    header.style.opacity='0';
+    setTimeout(()=>{
+        header.style.display='none';
+        countDisplay.style.display='block';
+        let timeLeft=5;
+        let timer=setInterval(()=>{
+            countDisplay.innerText=timeLeft;
+            countDisplay.style.animation='none';
+            countDisplay.offsetHeight; 
+            countDisplay.style.animation='pop 0.6s ease';
+            popSound();
+            timeLeft--;
+            if(timeLeft<0){
+                clearInterval(timer);
+                countDisplay.innerText='❤️';
+                setTimeout(goToPage2,1000);
+            }
+        },1000);
+    },500);
+}
+
+function popSound(){
+    if(!window.audioCtx) window.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = window.audioCtx.createOscillator();
+    const gain = window.audioCtx.createGain();
+    osc.type='sine';
+    osc.frequency.value = 600 + Math.random()*200;
+    gain.gain.value = 0.05;
+    osc.connect(gain);
+    gain.connect(window.audioCtx.destination);
+    osc.start();
+    osc.stop(window.audioCtx.currentTime+0.1);
+}
+
+function goToPage2(){
+    document.body.style.overflow='auto';
+    document.getElementById("page1").style.display="none";
+    document.getElementById("page2").style.display="flex";
+    typeWriter();
+}
+
+function goToPage3(){
+    document.getElementById("page2").style.display="none";
+    document.getElementById("page3").style.display="block";
+    window.scrollTo(0,0);
+}
+
+function goToPage4(){
+    document.getElementById("page3").style.display="none";
+    document.getElementById("page4").style.display="block";
+    window.scrollTo(0,0);
+}
+
+function goToPage5(){
+    document.getElementById("page4").style.display="none";
+    document.getElementById("page5").style.display="block";
+    window.scrollTo(0,0);
+}
+</script>
+
+</body>
+</html>
