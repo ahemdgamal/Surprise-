@@ -11,6 +11,33 @@
 *{ box-sizing:border-box; margin:0; padding:0; font-family:'Cairo',sans-serif; }
 body{ background:#1a1a1a; overflow:hidden; }
 
+/* تنسيق فقاعات القلوب الاحترافية */
+.heart-bubble {
+    position: absolute;
+    bottom: -100px;
+    background: rgba(255, 77, 109, 0.6);
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    /* رسم شكل قلب احترافي */
+    clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
+    animation: floatUp linear infinite;
+    z-index: 1;
+    pointer-events: none;
+    box-shadow: 0 0 15px rgba(255, 77, 109, 0.5);
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-110vh) rotate(360deg) scale(1.2); opacity: 0; }
+}
+
 /* صفحة القفل الانتظار */
 #lock-screen {
     position: fixed;
@@ -23,14 +50,17 @@ body{ background:#1a1a1a; overflow:hidden; }
     align-items: center;
     color: #fff;
     text-align: center;
+    overflow: hidden; /* لمنع ظهور شريط التمرير بسبب الفقاعات */
 }
 
-#lock-screen h1 { color: #ff4d6d; margin-bottom: 20px; font-size: 2rem; }
+#lock-screen h1 { color: #ff4d6d; margin-bottom: 20px; font-size: 2rem; position: relative; z-index: 10; }
 
 .timer-container {
     display: flex;
     gap: 15px;
     font-weight: bold;
+    position: relative;
+    z-index: 10;
 }
 
 .timer-box {
@@ -52,6 +82,8 @@ body{ background:#1a1a1a; overflow:hidden; }
     color: #ffccd5;
     text-shadow: 0 0 15px #ff4d6d;
     min-height: 40px;
+    position: relative;
+    z-index: 10;
 }
 
 /* تعديل العداد النهائي ليكون جذاباً ومتغير الألوان */
@@ -63,6 +95,8 @@ body{ background:#1a1a1a; overflow:hidden; }
     display: none;
     text-shadow: 0 0 30px rgba(0,0,0,0.5);
     animation: pulse 1s infinite;
+    position: relative;
+    z-index: 10;
 }
 
 @keyframes pulse {
@@ -111,8 +145,7 @@ body{ background:#1a1a1a; overflow:hidden; }
     cursor:pointer;
     transition:.3s;
     box-shadow:0 10px 30px rgba(255,77,109,0.4);
-    display: block;
-    margin: 30px auto;
+    display: block; margin: 30px auto;
 }
 
 #page2, #page3, #page4, #page5, #page6 {
@@ -247,6 +280,8 @@ body{ background:#1a1a1a; overflow:hidden; }
 <body>
 
 <div id="lock-screen">
+    <div id="lock-bubbles-container"></div>
+    
     <h1 id="lock-title">سيتم فتح المفاجأة يا ياسمين خلال:</h1>
     <div class="timer-container" id="main-timer">
         <div class="timer-box"><span id="days">00</span><label>يوم</label></div>
@@ -258,8 +293,12 @@ body{ background:#1a1a1a; overflow:hidden; }
     <div id="final-seconds">60</div>
 </div>
 
-<audio id="birthdayMusic" loop>
+<audio id="birthdayMusic">
     <source src="y.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="afterMusic" loop>
+    <source src="M.mp3" type="audio/mpeg">
 </audio>
 
 <div id="page1">
@@ -332,7 +371,7 @@ body{ background:#1a1a1a; overflow:hidden; }
         <div class="floral-text">
             كل سنة وإنتِ طيبة يا أجمل ياسمين في الدنيا 🎉<br><br>
             اليوم ده مش أي يوم، ده يوم ميلادك، يوم بحتفل بيه وبوجودك الجميل في حياتنا. بتمني ليكي سنة مليانة توفيق، سلامة، حب، مودة، وفرح كل يوم فيها أكتر من اللي قبله. 💖<br><br>
-            المفاجأة محضراها مخصوص عشانك، وإن شاء الله اللي جاي… كل لحظة هتكون فرحة ليكي، وضحكتك هتكون عنوان الأيام كلها بإذن الله ✨
+            المفاجأة محضرها مخصوص عشانك، وإن شاء الله اللي جاي… كل لحظة هتكون فرحة ليكي، وضحكتك هتكون عنوان الأيام كلها بإذن الله ✨
         </div>
     </div>
     
@@ -345,6 +384,32 @@ body{ background:#1a1a1a; overflow:hidden; }
 </div>
 
 <script>
+// وظيفة إنتاج فقاعات ياسمين في صفحة الانتظار
+function createLockBubbles() {
+    const container = document.getElementById('lock-bubbles-container');
+    const bubbleCount = 35; // عدد الفقاعات
+    for (let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'heart-bubble';
+        bubble.innerText = 'ياسمين';
+        
+        const leftPos = Math.random() * 100;
+        const delay = Math.random() * 10;
+        const duration = 6 + Math.random() * 6;
+        const size = 50 + Math.random() * 40;
+
+        bubble.style.left = leftPos + '%';
+        bubble.style.animationDelay = delay + 's';
+        bubble.style.animationDuration = duration + 's';
+        bubble.style.width = size + 'px';
+        bubble.style.height = size + 'px';
+        bubble.style.fontSize = (size / 6) + 'px';
+
+        container.appendChild(bubble);
+    }
+}
+createLockBubbles();
+
 const targetDate = new Date("January 1, 2026 00:00:00").getTime();
 
 const countdownInterval = setInterval(function() {
@@ -414,11 +479,19 @@ function typeWriter(){
     }
 }
 
+// تعديل منطق تشغيل الأغاني المتتابعة
+const bgMusic = document.getElementById('birthdayMusic');
+const afterMusic = document.getElementById('afterMusic');
+
+bgMusic.onended = function() {
+    afterMusic.currentTime = 15; // تخطي أول 15 ثانية من M.mp3
+    afterMusic.play();
+};
+
 function startCountdown(){
     const header = document.getElementById('header-content');
     const countDisplay = document.getElementById('countdown');
-    const music = document.getElementById('birthdayMusic');
-    music.play().catch(e=>console.log("Audio play failed"));
+    bgMusic.play().catch(e=>console.log("Audio play failed"));
     header.style.opacity='0';
     setTimeout(()=>{
         header.style.display='none';
@@ -453,7 +526,6 @@ function popSound(){
     osc.stop(window.audioCtx.currentTime+0.1);
 }
 
-// مصفوفات الكلمات (Lyrics) حسب الوقت بالثواني
 const lyrics1 = [
     { time: 0, text: "بدأنا الأغنية.. ✨" },
     { time: 5, text: "كل لحظة معاكي حكاية ❤️" },
@@ -468,8 +540,6 @@ const lyrics2 = [
     { time: 15, text: "انبسطي بيومك يا قمر ✨" }
 ];
 
-const bgMusic = document.getElementById('birthdayMusic');
-
 function playExtra(num) {
     const s1 = document.getElementById('extraSong1');
     const s2 = document.getElementById('extraSong2');
@@ -479,10 +549,10 @@ function playExtra(num) {
     const data = (num === 1) ? lyrics1 : lyrics2;
 
     bgMusic.pause();
+    afterMusic.pause(); // إيقاف M.mp3 إذا كانت تعمل
     otherSong.pause();
     currentSong.play();
 
-    // تحديث الكلمات تدريجياً
     currentSong.ontimeupdate = () => {
         const currentPos = currentSong.currentTime;
         const activeLyric = data.filter(l => currentPos >= l.time).pop();
@@ -502,7 +572,13 @@ function stopExtra(num) {
     s.pause();
     s.currentTime = 0;
     lBox.innerText = "تم الإيقاف.. ✨";
-    bgMusic.play();
+    
+    // العودة لتشغيل الموسيقى الخلفية الصحيحة
+    if (bgMusic.ended) {
+        afterMusic.play();
+    } else {
+        bgMusic.play();
+    }
 }
 
 function goToPage2(){
@@ -533,7 +609,13 @@ function goToPage5(){
 function goToPage6(){
     document.getElementById('extraSong1').pause();
     document.getElementById('extraSong2').pause();
-    bgMusic.play();
+    
+    if (bgMusic.ended) {
+        afterMusic.play();
+    } else {
+        bgMusic.play();
+    }
+
     document.getElementById("page5").style.display="none";
     document.getElementById("page6").style.display="block";
     window.scrollTo(0,0);
