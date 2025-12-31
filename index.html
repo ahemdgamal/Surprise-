@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>الي  ياسمين</title>
+<title>عيد ميلاد ياسمين</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
@@ -115,7 +115,7 @@ body{ background:#1a1a1a; overflow:hidden; }
     margin: 30px auto;
 }
 
-#page2, #page3, #page4, #page5 {
+#page2, #page3, #page4, #page5, #page6 {
     display:none;
     min-height:100vh;
     background: linear-gradient(135deg, #38040e 0%, #1a0206 100%);
@@ -164,6 +164,29 @@ body{ background:#1a1a1a; overflow:hidden; }
 .food-img { width: 100%; max-height: 550px; object-fit: cover; }
 .food-desc h3 { color: #ff4d6d; font-size: 1.8rem; padding: 20px; text-align: center; }
 .food-desc p { color: #ffccd5; padding: 0 20px 30px; font-size: 1.2rem; text-align: center; }
+
+/* تنسيق صفحة الأغاني المطور - Page 5 */
+.songs-container { display: flex; flex-direction: column; gap: 40px; align-items: center; margin: 40px auto; max-width: 650px; }
+.song-card { background: rgba(255,255,255,0.08); padding: 30px; border-radius: 30px; border: 2px solid #ff4d6d; width: 100%; text-align: center; position: relative; }
+.song-img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 4px solid #ff4d6d; }
+
+.lyrics-box {
+    margin-top: 20px;
+    min-height: 60px;
+    font-size: 1.3rem;
+    color: #ffccd5;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+    transition: 0.5s;
+    padding: 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 15px;
+}
+
+.audio-controls { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+.audio-btn { padding: 12px 25px; border-radius: 25px; border: none; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; }
+.play-btn { background: #ff4d6d; color: white; }
+.stop-btn { background: #666; color: white; }
 
 .bouquet-box {
     max-width: 700px;
@@ -263,7 +286,7 @@ body{ background:#1a1a1a; overflow:hidden; }
         <div class="outfit-card-v"><img src="y5.png"><div class="crown-title">لا جمدان بصراحة ✨</div></div>
         <div class="outfit-card-v"><img src="y6.png"><div class="crown-title"> مزة مزة يعني 😍<span class="red-heart">❤️</span></div></div>
         <div class="outfit-card-v"><img src="y.png"><div class="crown-title"> حاجة شيقة وانيقة 😉<span class="red-heart">❤️</span></div></div>
-        <div class="outfit-card-v"><img src="y7.png"><div class="crown-title"> هنا اما قولتلك النضارة تجنن فيكي 😉<span class="red-heart">❤️</span></div></div>
+        <div class="outfit-card-v"><img src="y7.png"><div class="crown-title"> هنا اما قولتلك النضارة تجنن فيكي وهي حكاية فيكي بصراحة 😉<span class="red-heart">❤️</span></div></div>
     </div>
     <button class="nav-btn" onclick="goToPage4()">لمساتك اللي تجنن 👩‍🍳</button>
 </div>
@@ -275,10 +298,36 @@ body{ background:#1a1a1a; overflow:hidden; }
         <div class="food-card"><img src="k.png" class="food-img"><div class="food-desc"><h3>سحر اللمسة</h3><p> كل أكلة ليها حكاية من ايدك الحلوة ♥✨</p></div></div>
         <div class="food-card"><img src="h.png" class="food-img"><div class="food-desc"><h3>قمة اللذاذة</h3><p>نِفسك هو سر الطعم 🔥</p></div></div>
     </div>
-    <button class="nav-btn" onclick="goToPage5()">أخر حاجة 💖</button>
+    <button class="nav-btn" onclick="goToPage5()">ذوقك في الأغاني 🎵</button>
 </div>
 
 <div id="page5">
+    <h2 style="color:#ff4d6d; text-align:center; font-size: 3rem; margin-bottom: 20px;">زوقك الجميل في الاغاني ✨</h2>
+    <div class="songs-container">
+        <div class="song-card">
+            <img src="y1.png" class="song-img">
+            <div class="lyrics-box" id="lyrics1">استعدي لسماع الأغنية.. ✨</div>
+            <audio id="extraSong1" src="1.mp3"></audio>
+            <div class="audio-controls">
+                <button class="audio-btn play-btn" onclick="playExtra(1)">Play ▶</button>
+                <button class="audio-btn stop-btn" onclick="stopExtra(1)">Stop ⏹</button>
+            </div>
+        </div>
+
+        <div class="song-card">
+            <img src="y2.png" class="song-img">
+            <div class="lyrics-box" id="lyrics2">استعدي لسماع الأغنية.. ✨</div>
+            <audio id="extraSong2" src="2.mp3"></audio>
+            <div class="audio-controls">
+                <button class="audio-btn play-btn" onclick="playExtra(2)">Play ▶</button>
+                <button class="audio-btn stop-btn" onclick="stopExtra(2)">Stop ⏹</button>
+            </div>
+        </div>
+    </div>
+    <button class="nav-btn" onclick="goToPage6()">أخر حاجة 💖</button>
+</div>
+
+<div id="page6">
     <div class="bouquet-box">
         <div class="floral-text">
             كل سنة وإنتِ طيبة يا أجمل ياسمين في الدنيا 🎉<br><br>
@@ -318,16 +367,13 @@ const countdownInterval = setInterval(function() {
     const mainTimer = document.getElementById("main-timer");
     const lockTitle = document.getElementById("lock-title");
 
-    // الرسائل الأصلية لم يتم تغييرها
     if (totalHours <= 10 && totalHours > 2) {
         msgBox.innerText = "خلاص هانت 😍";
     } else if (totalHours <= 2 && distance > 60000) {
         msgBox.innerText = "أتمنى تعجبك 😉❤️";
     }
 
-    // التعديل المطلوب: العداد التنازلي لآخر دقيقة
     if (distance <= 60000 && distance > 0) {
-        // إخفاء كل شيء وبقاء العداد فقط
         msgBox.style.display = "none";
         mainTimer.style.display = "none";
         lockTitle.style.display = "none";
@@ -335,15 +381,14 @@ const countdownInterval = setInterval(function() {
         finalSecBox.style.display = "block";
         finalSecBox.innerText = seconds;
 
-        // تغيير الألوان تدريجياً
         if (seconds > 30) {
-            finalSecBox.style.color = "#ff4d6d"; // أحمر
+            finalSecBox.style.color = "#ff4d6d";
             finalSecBox.style.textShadow = "0 0 30px #ff4d6d";
         } else if (seconds <= 30 && seconds > 10) {
-            finalSecBox.style.color = "#ffd700"; // أصفر (Gold)
+            finalSecBox.style.color = "#ffd700";
             finalSecBox.style.textShadow = "0 0 30px #ffd700";
         } else {
-            finalSecBox.style.color = "#00ff88"; // أخضر
+            finalSecBox.style.color = "#00ff88";
             finalSecBox.style.textShadow = "0 0 30px #00ff88";
         }
     }
@@ -408,6 +453,58 @@ function popSound(){
     osc.stop(window.audioCtx.currentTime+0.1);
 }
 
+// مصفوفات الكلمات (Lyrics) حسب الوقت بالثواني
+const lyrics1 = [
+    { time: 0, text: "بدأنا الأغنية.. ✨" },
+    { time: 5, text: "كل لحظة معاكي حكاية ❤️" },
+    { time: 10, text: "يا أجمل ياسمين في الدنيا 🌸" },
+    { time: 15, text: "ضحكتك هي السر ✨" }
+];
+
+const lyrics2 = [
+    { time: 0, text: "روقان التانية بدأ.. ✨" },
+    { time: 5, text: "على ذوقك الجميل 😍" },
+    { time: 10, text: "أغاني مختارة بكل حب ❤️" },
+    { time: 15, text: "انبسطي بيومك يا قمر ✨" }
+];
+
+const bgMusic = document.getElementById('birthdayMusic');
+
+function playExtra(num) {
+    const s1 = document.getElementById('extraSong1');
+    const s2 = document.getElementById('extraSong2');
+    const currentSong = (num === 1) ? s1 : s2;
+    const otherSong = (num === 1) ? s2 : s1;
+    const lBox = document.getElementById('lyrics' + num);
+    const data = (num === 1) ? lyrics1 : lyrics2;
+
+    bgMusic.pause();
+    otherSong.pause();
+    currentSong.play();
+
+    // تحديث الكلمات تدريجياً
+    currentSong.ontimeupdate = () => {
+        const currentPos = currentSong.currentTime;
+        const activeLyric = data.filter(l => currentPos >= l.time).pop();
+        if (activeLyric && lBox.innerText !== activeLyric.text) {
+            lBox.style.opacity = 0;
+            setTimeout(() => {
+                lBox.innerText = activeLyric.text;
+                lBox.style.opacity = 1;
+            }, 200);
+        }
+    };
+}
+
+function stopExtra(num) {
+    const s = document.getElementById('extraSong' + num);
+    const lBox = document.getElementById('lyrics' + num);
+    s.pause();
+    s.currentTime = 0;
+    lBox.innerText = "تم الإيقاف.. ✨";
+    bgMusic.play();
+}
+
 function goToPage2(){
     document.body.style.overflow='auto';
     document.getElementById("page1").style.display="none";
@@ -430,6 +527,15 @@ function goToPage4(){
 function goToPage5(){
     document.getElementById("page4").style.display="none";
     document.getElementById("page5").style.display="block";
+    window.scrollTo(0,0);
+}
+
+function goToPage6(){
+    document.getElementById('extraSong1').pause();
+    document.getElementById('extraSong2').pause();
+    bgMusic.play();
+    document.getElementById("page5").style.display="none";
+    document.getElementById("page6").style.display="block";
     window.scrollTo(0,0);
 }
 </script>
